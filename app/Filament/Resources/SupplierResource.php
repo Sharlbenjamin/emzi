@@ -30,7 +30,6 @@ class SupplierResource extends Resource
         return $form
             ->schema([
                 TextInput::make('name')
-                    ->required()
                     ->maxLength(255),
                 TextInput::make('phone')
                     ->tel()
@@ -47,8 +46,7 @@ class SupplierResource extends Resource
                     ->columnSpanFull(),
                 Toggle::make('is_active')
                     ->label('Active')
-                    ->default(true)
-                    ->required(),
+                    ->default(true),
             ]);
     }
 

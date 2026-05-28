@@ -13,12 +13,12 @@ return new class extends Migration
     {
         Schema::create('production_batches', function (Blueprint $table) {
             $table->id();
-            $table->string('batch_number')->unique();
-            $table->foreignId('product_id')->constrained()->restrictOnDelete();
-            $table->foreignId('product_variant_id')->nullable()->constrained()->nullOnDelete();
-            $table->unsignedInteger('quantity_planned');
-            $table->unsignedInteger('quantity_completed')->default(0);
-            $table->enum('status', ['planned', 'in_production', 'completed', 'cancelled'])->default('planned');
+            $table->string('batch_number')->nullable();
+            $table->unsignedBigInteger('product_id')->nullable();
+            $table->unsignedBigInteger('product_variant_id')->nullable();
+            $table->unsignedInteger('quantity_planned')->nullable();
+            $table->unsignedInteger('quantity_completed')->nullable();
+            $table->string('status')->nullable();
             $table->date('start_date')->nullable();
             $table->date('expected_completion_date')->nullable();
             $table->timestamp('completed_at')->nullable();

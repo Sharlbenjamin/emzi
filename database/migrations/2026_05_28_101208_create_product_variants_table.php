@@ -13,15 +13,15 @@ return new class extends Migration
     {
         Schema::create('product_variants', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('product_id')->constrained()->cascadeOnDelete();
-            $table->string('sku')->unique();
+            $table->unsignedBigInteger('product_id')->nullable();
+            $table->string('sku')->nullable();
             $table->string('size')->nullable();
             $table->string('color')->nullable();
-            $table->decimal('price', 12, 2)->default(0);
-            $table->unsignedInteger('available_stock')->default(0);
-            $table->unsignedInteger('reserved_stock')->default(0);
+            $table->decimal('price', 12, 2)->nullable();
+            $table->unsignedInteger('available_stock')->nullable();
+            $table->unsignedInteger('reserved_stock')->nullable();
             $table->string('shopify_variant_id')->nullable();
-            $table->boolean('is_active')->default(true);
+            $table->boolean('is_active')->nullable();
             $table->timestamps();
         });
     }

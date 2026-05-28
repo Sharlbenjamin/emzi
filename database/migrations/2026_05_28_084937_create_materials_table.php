@@ -13,17 +13,17 @@ return new class extends Migration
     {
         Schema::create('materials', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('sku')->unique();
-            $table->string('category');
-            $table->foreignId('supplier_id')->constrained()->restrictOnDelete();
-            $table->enum('unit_type', ['meter', 'piece', 'kg', 'roll', 'pack']);
-            $table->decimal('available_quantity', 12, 3)->default(0);
-            $table->decimal('minimum_quantity_alert', 12, 3)->default(0);
-            $table->decimal('cost_per_unit', 12, 2)->default(0);
+            $table->string('name')->nullable();
+            $table->string('sku')->nullable();
+            $table->string('category')->nullable();
+            $table->unsignedBigInteger('supplier_id')->nullable();
+            $table->string('unit_type')->nullable();
+            $table->decimal('available_quantity', 12, 3)->nullable();
+            $table->decimal('minimum_quantity_alert', 12, 3)->nullable();
+            $table->decimal('cost_per_unit', 12, 2)->nullable();
             $table->string('color')->nullable();
             $table->text('notes')->nullable();
-            $table->boolean('is_active')->default(true);
+            $table->boolean('is_active')->nullable();
             $table->timestamps();
         });
     }

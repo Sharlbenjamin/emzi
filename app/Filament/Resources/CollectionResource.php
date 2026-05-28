@@ -38,10 +38,8 @@ class CollectionResource extends Resource
         return $form
             ->schema([
                 TextInput::make('name')
-                    ->required()
                     ->maxLength(255),
                 TextInput::make('season')
-                    ->required()
                     ->maxLength(100),
                 DatePicker::make('launch_date'),
                 Textarea::make('description')
@@ -49,8 +47,7 @@ class CollectionResource extends Resource
                     ->columnSpanFull(),
                 Toggle::make('is_active')
                     ->label('Active')
-                    ->default(true)
-                    ->required(),
+                    ->default(true),
             ]);
     }
 

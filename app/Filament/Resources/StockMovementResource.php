@@ -31,28 +31,23 @@ class StockMovementResource extends Resource
             ->schema([
                 Select::make('type')
                     ->options(array_combine(StockMovement::TYPES, array_map(fn (string $type): string => ucwords(str_replace('_', ' ', $type)), StockMovement::TYPES)))
-                    ->required()
                     ->live(),
                 Select::make('material_id')
                     ->relationship('material', 'name')
                     ->searchable()
                     ->preload()
-                    ->visible(fn (Get $get): bool => in_array($get('type'), ['material_in', 'material_out', 'adjustment'], true))
-                    ->required(fn (Get $get): bool => in_array($get('type'), ['material_in', 'material_out'], true)),
+                    ->visible(fn (Get $get): bool => in_array($get('type'), ['material_in', 'material_out', 'adjustment'], true)),
                 Select::make('product_variant_id')
                     ->relationship('productVariant', 'sku')
                     ->searchable()
                     ->preload()
-                    ->visible(fn (Get $get): bool => in_array($get('type'), ['product_in', 'product_reserved', 'product_unreserved', 'adjustment'], true))
-                    ->required(fn (Get $get): bool => in_array($get('type'), ['product_in', 'product_reserved', 'product_unreserved'], true)),
+                    ->visible(fn (Get $get): bool => in_array($get('type'), ['product_in', 'product_reserved', 'product_unreserved', 'adjustment'], true)),
                 TextInput::make('quantity')
                     ->numeric()
-                    ->step(0.001)
-                    ->required(),
+                    ->step(0.001),
                 TextInput::make('unit_cost')
                     ->numeric()
-                    ->step(0.01)
-                    ->minValue(0),
+                    ->step(0.01),
                 TextInput::make('reason')
                     ->maxLength(255),
                 TextInput::make('reference_type')

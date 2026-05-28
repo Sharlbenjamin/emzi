@@ -44,42 +44,30 @@ class MaterialResource extends Resource
         return $form
             ->schema([
                 TextInput::make('name')
-                    ->required()
                     ->maxLength(255),
                 TextInput::make('sku')
-                    ->required()
-                    ->maxLength(100)
-                    ->unique(ignoreRecord: true),
+                    ->maxLength(100),
                 TextInput::make('category')
-                    ->required()
                     ->maxLength(100),
                 Select::make('supplier_id')
                     ->relationship('supplier', 'name')
                     ->searchable()
-                    ->preload()
-                    ->required(),
+                    ->preload(),
                 Select::make('unit_type')
-                    ->options(self::UNIT_TYPES)
-                    ->required(),
+                    ->options(self::UNIT_TYPES),
                 TextInput::make('available_quantity')
                     ->label('Available Quantity')
                     ->numeric()
-                    ->minValue(0)
-                    ->step(0.001)
-                    ->required(),
+                    ->step(0.001),
                 TextInput::make('minimum_quantity_alert')
                     ->label('Minimum Quantity Alert')
                     ->numeric()
-                    ->minValue(0)
-                    ->step(0.001)
-                    ->required(),
+                    ->step(0.001),
                 TextInput::make('cost_per_unit')
                     ->label('Cost per Unit')
                     ->numeric()
-                    ->minValue(0)
                     ->step(0.01)
-                    ->visible(fn (): bool => static::canViewSensitiveCosts())
-                    ->required(fn (): bool => static::canViewSensitiveCosts()),
+                    ->visible(fn (): bool => static::canViewSensitiveCosts()),
                 TextInput::make('color')
                     ->maxLength(100),
                 Textarea::make('notes')
@@ -87,8 +75,7 @@ class MaterialResource extends Resource
                     ->columnSpanFull(),
                 Toggle::make('is_active')
                     ->label('Active')
-                    ->default(true)
-                    ->required(),
+                    ->default(true),
             ]);
     }
 

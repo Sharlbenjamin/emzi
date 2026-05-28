@@ -35,26 +35,19 @@ class ProductResource extends Resource
                 Select::make('collection_id')
                     ->relationship('collection', 'name')
                     ->searchable()
-                    ->preload()
-                    ->required(),
+                    ->preload(),
                 TextInput::make('name')
-                    ->required()
                     ->maxLength(255),
                 TextInput::make('handle')
-                    ->required()
-                    ->maxLength(255)
-                    ->unique(ignoreRecord: true),
+                    ->maxLength(255),
                 TextInput::make('sku')
-                    ->required()
-                    ->maxLength(100)
-                    ->unique(ignoreRecord: true),
+                    ->maxLength(100),
                 Select::make('status')
                     ->options([
                         'draft' => 'Draft',
                         'active' => 'Active',
                         'archived' => 'Archived',
-                    ])
-                    ->required(),
+                    ]),
                 TextInput::make('shopify_product_id')
                     ->maxLength(255),
                 TextInput::make('image_url')
@@ -62,9 +55,7 @@ class ProductResource extends Resource
                     ->maxLength(2048),
                 TextInput::make('base_price')
                     ->numeric()
-                    ->minValue(0)
-                    ->step(0.01)
-                    ->required(),
+                    ->step(0.01),
                 Textarea::make('description')
                     ->rows(5)
                     ->columnSpanFull(),

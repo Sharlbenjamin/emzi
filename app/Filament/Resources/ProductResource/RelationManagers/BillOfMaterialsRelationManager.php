@@ -30,20 +30,14 @@ class BillOfMaterialsRelationManager extends RelationManager
                 Select::make('material_id')
                     ->relationship('material', 'name')
                     ->searchable()
-                    ->preload()
-                    ->required()
-                    ->unique(ignoreRecord: true, modifyRuleUsing: fn ($rule) => $rule->where('product_id', $this->ownerRecord->id)),
+                    ->preload(),
                 TextInput::make('quantity_required')
                     ->numeric()
-                    ->minValue(0.001)
-                    ->step(0.001)
-                    ->required(),
+                    ->step(0.001),
                 TextInput::make('wastage_percentage')
                     ->numeric()
-                    ->minValue(0)
                     ->step(0.01)
-                    ->default(0)
-                    ->required(),
+                    ->default(0),
                 Placeholder::make('actual_required_preview')
                     ->label('Actual Required Quantity')
                     ->content(function ($get): string {

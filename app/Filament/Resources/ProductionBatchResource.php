@@ -32,14 +32,11 @@ class ProductionBatchResource extends Resource
         return $form
             ->schema([
                 TextInput::make('batch_number')
-                    ->required()
-                    ->maxLength(100)
-                    ->unique(ignoreRecord: true),
+                    ->maxLength(100),
                 Select::make('product_id')
                     ->relationship('product', 'name')
                     ->searchable()
                     ->preload()
-                    ->required()
                     ->live(),
                 Select::make('product_variant_id')
                     ->label('Product Variant')
@@ -58,22 +55,17 @@ class ProductionBatchResource extends Resource
                     })
                     ->searchable(),
                 TextInput::make('quantity_planned')
-                    ->numeric()
-                    ->minValue(1)
-                    ->required(),
+                    ->numeric(),
                 TextInput::make('quantity_completed')
                     ->numeric()
-                    ->minValue(0)
-                    ->default(0)
-                    ->required(),
+                    ->default(0),
                 Select::make('status')
                     ->options([
                         'planned' => 'Planned',
                         'in_production' => 'In Production',
                         'completed' => 'Completed',
                         'cancelled' => 'Cancelled',
-                    ])
-                    ->required(),
+                    ]),
                 DatePicker::make('start_date'),
                 DatePicker::make('expected_completion_date'),
                 Textarea::make('notes')

@@ -24,33 +24,24 @@ class ProductVariantsRelationManager extends RelationManager
         return $form
             ->schema([
                 TextInput::make('sku')
-                    ->required()
-                    ->maxLength(100)
-                    ->unique(ignoreRecord: true),
+                    ->maxLength(100),
                 TextInput::make('size')
                     ->maxLength(50),
                 TextInput::make('color')
                     ->maxLength(100),
                 TextInput::make('price')
                     ->numeric()
-                    ->minValue(0)
-                    ->step(0.01)
-                    ->required(),
+                    ->step(0.01),
                 TextInput::make('available_stock')
                     ->numeric()
-                    ->minValue(0)
-                    ->default(0)
-                    ->required(),
+                    ->default(0),
                 TextInput::make('reserved_stock')
                     ->numeric()
-                    ->minValue(0)
-                    ->default(0)
-                    ->required(),
+                    ->default(0),
                 TextInput::make('shopify_variant_id')
                     ->maxLength(255),
                 Toggle::make('is_active')
-                    ->default(true)
-                    ->required(),
+                    ->default(true),
             ]);
     }
 

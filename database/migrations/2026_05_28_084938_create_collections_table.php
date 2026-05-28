@@ -13,11 +13,11 @@ return new class extends Migration
     {
         Schema::create('collections', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('season');
+            $table->string('name')->nullable();
+            $table->string('season')->nullable();
             $table->date('launch_date')->nullable();
             $table->text('description')->nullable();
-            $table->boolean('is_active')->default(true);
+            $table->boolean('is_active')->nullable();
             $table->timestamps();
         });
     }

@@ -13,22 +13,15 @@ return new class extends Migration
     {
         Schema::create('stock_movements', function (Blueprint $table) {
             $table->id();
-            $table->enum('type', [
-                'material_in',
-                'material_out',
-                'product_in',
-                'product_reserved',
-                'product_unreserved',
-                'adjustment',
-            ]);
-            $table->foreignId('material_id')->nullable()->constrained()->nullOnDelete();
-            $table->foreignId('product_variant_id')->nullable()->constrained()->nullOnDelete();
-            $table->decimal('quantity', 12, 3);
+            $table->string('type')->nullable();
+            $table->unsignedBigInteger('material_id')->nullable();
+            $table->unsignedBigInteger('product_variant_id')->nullable();
+            $table->decimal('quantity', 12, 3)->nullable();
             $table->decimal('unit_cost', 12, 2)->nullable();
             $table->string('reason')->nullable();
             $table->string('reference_type')->nullable();
             $table->unsignedBigInteger('reference_id')->nullable();
-            $table->foreignId('created_by')->nullable()->constrained('users')->nullOnDelete();
+            $table->unsignedBigInteger('created_by')->nullable();
             $table->text('notes')->nullable();
             $table->timestamps();
         });

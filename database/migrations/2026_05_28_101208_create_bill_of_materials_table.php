@@ -13,14 +13,12 @@ return new class extends Migration
     {
         Schema::create('bill_of_materials', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('product_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('material_id')->constrained()->restrictOnDelete();
-            $table->decimal('quantity_required', 12, 3);
-            $table->decimal('wastage_percentage', 5, 2)->default(0);
+            $table->unsignedBigInteger('product_id')->nullable();
+            $table->unsignedBigInteger('material_id')->nullable();
+            $table->decimal('quantity_required', 12, 3)->nullable();
+            $table->decimal('wastage_percentage', 5, 2)->nullable();
             $table->text('notes')->nullable();
             $table->timestamps();
-
-            $table->unique(['product_id', 'material_id']);
         });
     }
 
