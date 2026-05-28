@@ -27,9 +27,19 @@ class ProductImagesRelationManager extends RelationManager
     {
         return $form
             ->schema([
+                FileUpload::make('uploaded_image')
+                    ->label('Upload Image')
+                    ->image()
+                    ->disk('public')
+                    ->directory('products')
+                    ->dehydrated(false)
+                    ->afterStateUpdated(function ($state, callable $set): void {
+                        $set('image_url', $state ? Storage::url($state) : null);
+                    }),
                 TextInput::make('image_url')
                     ->url()
-                    ->maxLength(2048),
+                    ->maxLength(2048)
+                    ->helperText('You can upload or paste a direct URL.'),
                 TextInput::make('alt_text')
                     ->maxLength(255),
                 TextInput::make('position')
@@ -64,7 +74,8 @@ class ProductImagesRelationManager extends RelationManager
                             ->image()
                             ->multiple()
                             ->disk('public')
-                            ->directory('products'),
+                            ->directory('products')
+                            ->required(),
                         TextInput::make('alt_text')
                             ->label('Alt Text')
                             ->maxLength(255),

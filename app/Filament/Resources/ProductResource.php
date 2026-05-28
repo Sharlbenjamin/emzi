@@ -8,6 +8,7 @@ use App\Models\Product;
 use App\Models\User;
 use App\Support\Permission;
 use Filament\Facades\Filament;
+use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
@@ -20,6 +21,7 @@ use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
+use Illuminate\Support\Facades\Storage;
 
 class ProductResource extends Resource
 {
@@ -53,7 +55,17 @@ class ProductResource extends Resource
                     ->maxLength(255),
                 TextInput::make('image_url')
                     ->url()
-                    ->maxLength(2048),
+                    ->maxLength(2048)
+                    ->helperText('You can paste a direct image URL or use the upload field below.'),
+                FileUpload::make('cover_image_upload')
+                    ->label('Upload Cover Image')
+                    ->image()
+                    ->disk('public')
+                    ->directory('products/cover')
+                    ->dehydrated(false)
+                    ->afterStateUpdated(function ($state, callable $set): void {
+                        $set('image_url', $state ? Storage::url($state) : null);
+                    }),
                 TextInput::make('base_price')
                     ->numeric()
                     ->step(0.01),
