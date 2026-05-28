@@ -92,11 +92,11 @@ class ProductResource extends Resource
                     ->label('Images')
                     ->sortable(),
                 TextColumn::make('base_price')
-                    ->money('USD')
+                    ->money(config('app.currency', 'EGP'))
                     ->sortable(),
                 TextColumn::make('production_cost')
                     ->label('Production Cost')
-                    ->money('USD')
+                    ->money(config('app.currency', 'EGP'))
                     ->visible(fn (): bool => static::canViewSensitiveCosts())
                     ->state(fn (Product $record): float => $record->production_cost),
             ])

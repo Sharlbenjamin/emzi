@@ -55,7 +55,7 @@ class ProductVariantsRelationManager extends RelationManager
                 TextColumn::make('size'),
                 TextColumn::make('color'),
                 TextColumn::make('price')
-                    ->money('USD')
+                    ->money(config('app.currency', 'EGP'))
                     ->sortable(),
                 TextColumn::make('available_stock')
                     ->sortable(),

@@ -80,7 +80,7 @@ class StockMovementResource extends Resource
                 TextColumn::make('quantity')
                     ->numeric(decimalPlaces: 3),
                 TextColumn::make('unit_cost')
-                    ->money('USD'),
+                    ->money(config('app.currency', 'EGP')),
                 TextColumn::make('reason')
                     ->limit(30),
                 TextColumn::make('creator.name')

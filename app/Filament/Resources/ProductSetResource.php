@@ -114,11 +114,11 @@ class ProductSetResource extends Resource
                 TextColumn::make('status')
                     ->badge(),
                 TextColumn::make('set_price')
-                    ->money('USD')
+                    ->money(config('app.currency', 'EGP'))
                     ->sortable(),
                 TextColumn::make('items_separate_total')
                     ->label('Separate Total')
-                    ->money('USD'),
+                    ->money(config('app.currency', 'EGP')),
                 TextColumn::make('items_count')
                     ->counts('items')
                     ->label('Products')

@@ -55,6 +55,21 @@ class MaterialResource extends Resource
                     ->preload(),
                 Select::make('unit_type')
                     ->options(self::UNIT_TYPES),
+                TextInput::make('meters_per_roll')
+                    ->label('Meters per Roll')
+                    ->numeric()
+                    ->step(0.001)
+                    ->helperText('Use when this material is purchased or tracked by roll.'),
+                TextInput::make('kg_per_roll')
+                    ->label('Kg per Roll')
+                    ->numeric()
+                    ->step(0.001)
+                    ->helperText('Use for heavy rolls where each roll has a known weight.'),
+                TextInput::make('meters_per_piece')
+                    ->label('Meters per Piece')
+                    ->numeric()
+                    ->step(0.001)
+                    ->helperText('Use when one piece equals a known meter length.'),
                 TextInput::make('available_quantity')
                     ->label('Available Quantity')
                     ->numeric()
@@ -97,6 +112,18 @@ class MaterialResource extends Resource
                     ->sortable(),
                 TextColumn::make('unit_type')
                     ->badge(),
+                TextColumn::make('meters_per_roll')
+                    ->label('m/Roll')
+                    ->numeric(decimalPlaces: 3)
+                    ->toggleable(isToggledHiddenByDefault: true),
+                TextColumn::make('kg_per_roll')
+                    ->label('kg/Roll')
+                    ->numeric(decimalPlaces: 3)
+                    ->toggleable(isToggledHiddenByDefault: true),
+                TextColumn::make('meters_per_piece')
+                    ->label('m/Piece')
+                    ->numeric(decimalPlaces: 3)
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('available_quantity')
                     ->numeric(decimalPlaces: 3)
                     ->sortable(),
@@ -108,13 +135,13 @@ class MaterialResource extends Resource
                     ->boolean(),
                 TextColumn::make('total_material_value')
                     ->label('Total Value')
-                    ->money('USD')
+                    ->money(config('app.currency', 'EGP'))
                     ->visible(fn (): bool => static::canViewSensitiveCosts())
                     ->state(fn (Material $record): float => $record->total_material_value)
                     ->sortable(query: fn (Builder $query, string $direction): Builder => $query->orderByRaw("(available_quantity * cost_per_unit) {$direction}")),
                 TextColumn::make('cost_per_unit')
                     ->label('Cost / Unit')
-                    ->money('USD')
+                    ->money(config('app.currency', 'EGP'))
                     ->visible(fn (): bool => static::canViewSensitiveCosts()),
                 IconColumn::make('is_active')
                     ->label('Active')

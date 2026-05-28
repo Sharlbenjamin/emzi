@@ -71,7 +71,7 @@ class BillOfMaterialsRelationManager extends RelationManager
                     ->numeric(decimalPlaces: 3),
                 TextColumn::make('line_cost')
                     ->label('Line Cost')
-                    ->money('USD')
+                    ->money(config('app.currency', 'EGP'))
                     ->visible(fn (): bool => $this->canViewSensitiveCosts()),
             ])
             ->filters([
@@ -99,7 +99,11 @@ class BillOfMaterialsRelationManager extends RelationManager
             return 'Bill of Materials';
         }
 
-        return sprintf('Bill of Materials (Production Cost: $%s)', number_format($cost, 2));
+        return sprintf(
+            'Bill of Materials (Production Cost: %s %s)',
+            config('app.currency', 'EGP'),
+            number_format($cost, 2)
+        );
     }
 
     protected function canViewSensitiveCosts(): bool

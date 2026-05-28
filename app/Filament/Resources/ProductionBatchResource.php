@@ -194,6 +194,7 @@ class ProductionBatchResource extends Resource
     protected static function buildSummaryHtml(?array $items): HtmlString
     {
         $summary = app(ProductionBatchService::class)->buildPreviewSummaryFromFormItems($items ?? []);
+        $currency = config('app.currency', 'EGP');
 
         if (empty($summary['products'])) {
             return new HtmlString('<p class="text-gray-500">Add product items to see live material and cost planning.</p>');
@@ -201,21 +202,24 @@ class ProductionBatchResource extends Resource
 
         $productLines = collect($summary['products'])
             ->map(fn (array $line): string => sprintf(
-                '<li><strong>%s</strong>: %d pcs planned, unit cost $%0.2f, line $%0.2f</li>',
+                '<li><strong>%s</strong>: %d pcs planned, unit cost %s %0.2f, line %s %0.2f</li>',
                 e($line['product_name'] ?? 'Product'),
                 (int) ($line['planned_units'] ?? 0),
+                e($currency),
                 (float) ($line['unit_cost'] ?? 0),
+                e($currency),
                 (float) ($line['line_cost'] ?? 0),
             ))
             ->implode('');
 
         $materialLines = collect($summary['materials'])
             ->map(fn (array $line): string => sprintf(
-                '<li><strong>%s</strong>: need %0.3f, available %0.3f, shortfall %0.3f, cost $%0.2f</li>',
+                '<li><strong>%s</strong>: need %0.3f, available %0.3f, shortfall %0.3f, cost %s %0.2f</li>',
                 e($line['material_name'] ?? 'Material'),
                 (float) ($line['required_quantity'] ?? 0),
                 (float) ($line['available_quantity'] ?? 0),
                 (float) ($line['shortfall'] ?? 0),
+                e($currency),
                 (float) ($line['line_cost'] ?? 0),
             ))
             ->implode('');
@@ -232,14 +236,16 @@ class ProductionBatchResource extends Resource
         $html = sprintf(
             '<div class="space-y-2 text-sm">
                 <p><strong>Total planned units:</strong> %d</p>
-                <p><strong>Total product cost:</strong> $%0.2f</p>
-                <p><strong>Total material cost:</strong> $%0.2f</p>
+                <p><strong>Total product cost:</strong> %s %0.2f</p>
+                <p><strong>Total material cost:</strong> %s %0.2f</p>
                 <p><strong>Products in batch:</strong></p><ul class="list-disc pl-5">%s</ul>
                 <p><strong>Material usage forecast:</strong></p><ul class="list-disc pl-5">%s</ul>
                 <p><strong>Suppliers to call:</strong></p><ul class="list-disc pl-5">%s</ul>
             </div>',
             (int) ($summary['total_planned_units'] ?? 0),
+            e($currency),
             (float) ($summary['total_production_cost'] ?? 0),
+            e($currency),
             (float) ($summary['total_material_cost'] ?? 0),
             $productLines,
             $materialLines,
