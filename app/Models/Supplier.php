@@ -28,4 +28,9 @@ class Supplier extends Model
     {
         return $this->hasMany(Material::class);
     }
+
+    public function productionBatchMaterialOrders(): HasMany
+    {
+        return $this->hasMany(ProductionBatchMaterialOrder::class);
+    }
 }

@@ -16,6 +16,7 @@ use Filament\Resources\Resource;
 use Filament\Tables\Actions\BulkActionGroup;
 use Filament\Tables\Actions\DeleteBulkAction;
 use Filament\Tables\Actions\EditAction;
+use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
@@ -69,6 +70,8 @@ class ProductResource extends Resource
     {
         return $table
             ->columns([
+                ImageColumn::make('image_url')
+                    ->label('Image'),
                 TextColumn::make('name')
                     ->searchable()
                     ->sortable(),
@@ -83,6 +86,10 @@ class ProductResource extends Resource
                 TextColumn::make('product_variants_count')
                     ->counts('productVariants')
                     ->label('Variants')
+                    ->sortable(),
+                TextColumn::make('product_images_count')
+                    ->counts('productImages')
+                    ->label('Images')
                     ->sortable(),
                 TextColumn::make('base_price')
                     ->money('USD')
@@ -114,6 +121,7 @@ class ProductResource extends Resource
     public static function getRelations(): array
     {
         return [
+            RelationManagers\ProductImagesRelationManager::class,
             RelationManagers\ProductVariantsRelationManager::class,
             RelationManagers\BillOfMaterialsRelationManager::class,
         ];

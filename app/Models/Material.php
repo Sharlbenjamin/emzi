@@ -47,6 +47,11 @@ class Material extends Model
         return $this->hasMany(StockMovement::class);
     }
 
+    public function productionBatchMaterialOrders(): HasMany
+    {
+        return $this->hasMany(ProductionBatchMaterialOrder::class);
+    }
+
     public function getIsLowStockAttribute(): bool
     {
         return (float) $this->available_quantity <= (float) $this->minimum_quantity_alert;

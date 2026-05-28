@@ -43,6 +43,16 @@ class Product extends Model
         return $this->hasMany(BillOfMaterial::class);
     }
 
+    public function productImages(): HasMany
+    {
+        return $this->hasMany(ProductImage::class)->orderBy('position');
+    }
+
+    public function setItems(): HasMany
+    {
+        return $this->hasMany(ProductSetItem::class);
+    }
+
     public function productionBatches(): HasMany
     {
         return $this->hasMany(ProductionBatch::class);

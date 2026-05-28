@@ -42,4 +42,14 @@ class ProductVariant extends Model
     {
         return $this->hasMany(ProductionBatch::class);
     }
+
+    public function productionBatchItems(): HasMany
+    {
+        return $this->hasMany(ProductionBatchItem::class);
+    }
+
+    public function productSetItems(): HasMany
+    {
+        return $this->hasMany(ProductSetItem::class);
+    }
 }
